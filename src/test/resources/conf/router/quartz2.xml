@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<routes id="camel" xmlns="http://camel.apache.org/schema/spring">
+
+	<!-- 
+		quartz2를 이용한 스케줄 테스트
+	 -->
+	<route id="quartz2" autoStartup="false">
+		<!-- 매 5초당 한번씩 event 발생. 참고자료 http://fmd1225.tistory.com/60 -->
+		<from uri="quartz2://mygroup/timeName?cron=0/5+*+*+*+*+?" />
+		
+		<log message="Message:${body}" />
+    
+		<to uri="log:cool" />
+
+	</route>
+
+</routes>

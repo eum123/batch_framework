@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: batch
+
+batch:
+  home: /work/manjin/project/batch/src/main/resources/
+  id: test
+
+---
+#local 환경
+spring:
+  profiles: local
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/batch?serverTimezone=UTC&useSSL=false
+    username: root
+    password: 3134
+    dbcp2:
+      max-total: 10
+
+batch:
+  home: /work/manjin/project/batch/src/main/resources/
+
