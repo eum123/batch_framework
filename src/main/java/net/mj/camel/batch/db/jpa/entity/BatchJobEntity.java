@@ -53,6 +53,18 @@ public class BatchJobEntity implements Serializable {
     @Column(name="UPDATE_DATETIME")
     private Date updateDateTime = new Date();
 
+    @Column(name="START_DATETIME")
+    private Date startDatetime = new Date();
+
+    @Column(name="END_DATETIME")
+    private Date endDateTime = new Date();
+
+    @Column(name="EXECUTE_RESULT")
+    private String executeResult;
+
+    @Column(name="ERROR_MESSAGE")
+    private String errorMessage;
+
     @ManyToOne
     @JoinColumn(name = "BATCH_ID", insertable = false, updatable = false)
     private BatchEntity batchEntity;

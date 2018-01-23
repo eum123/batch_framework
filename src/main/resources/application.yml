@@ -21,6 +21,10 @@ spring:
     dbcp2:
       max-total: 10
 
+  jpa:
+    properties:
+      hibernate.jdbc.batch_size: 100
+
 batch:
   home: /work/manjin/project/batch/src/main/resources/
 
