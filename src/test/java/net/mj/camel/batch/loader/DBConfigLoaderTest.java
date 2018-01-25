@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BatchLauncher.class)
@@ -36,7 +37,7 @@ public class DBConfigLoaderTest {
 
         batchRepository.deleteAll();
 
-        List<JobConfig> list = loader.getConfigs();
+        Map<String, JobConfig> list = loader.getConfigs();
 
         Assert.assertEquals(list.size(), 0);
 

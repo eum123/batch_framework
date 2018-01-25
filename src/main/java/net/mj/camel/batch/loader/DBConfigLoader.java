@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -27,7 +29,7 @@ public class DBConfigLoader {
     private final Lock lock = new ReentrantLock();
     private final Condition condition = lock.newCondition();
 
-    private List<JobConfig> configs = new ArrayList<JobConfig>();
+    private Map<String, JobConfig> configs = new HashMap<String, JobConfig>();
 
     @Autowired
     private BatchJobRepository batchJobRepository;
@@ -63,7 +65,7 @@ public class DBConfigLoader {
                 config.setSingleTransaction(entity.isSingleTransaction());
                 config.setSchedule(entity.getJobSchedule());
 
-                configs.add(config);
+                configs.put(entity.getBatchJobId(), config);
             });
 
         } finally {
@@ -73,13 +75,25 @@ public class DBConfigLoader {
         }
     }
 
-    public List<JobConfig> getConfigs()  throws InterruptedException{
+    public Map<String, JobConfig> getConfigs()  throws InterruptedException{
         try {
             lock.lock();
             if(isUpdate) {
                 condition.await();
             }
             return configs;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public JobConfig getConfig(String batchJobId)  throws InterruptedException{
+        try {
+            lock.lock();
+            if(isUpdate) {
+                condition.await();
+            }
+            return configs.get(batchJobId);
         } finally {
             lock.unlock();
         }
