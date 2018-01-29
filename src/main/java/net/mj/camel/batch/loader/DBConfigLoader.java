@@ -57,11 +57,11 @@ public class DBConfigLoader {
                 JobConfig config = new JobConfig();
                 config.setJobId(entity.getBatchJobId());
                 config.setWriterProperties(entity.getWriterProperties());
-                config.setWriterClassName(entity.getWriterClassName());
+                config.setWriterBeanId(entity.getWriterBeanId());
                 config.setWorkerProperties(entity.getWorkerProperties());
-                config.setWorkerClassName(entity.getWorkerClassName());
+                config.setWorkerBeanId(entity.getWorkerBeanId());
                 config.setReaderProperties(entity.getReaderProperties());
-                config.setReaderClassName(entity.getReaderClassName());
+                config.setReaderBeanId(entity.getReaderBeanId());
                 config.setSingleTransaction(entity.isSingleTransaction());
                 config.setSchedule(entity.getJobSchedule());
 

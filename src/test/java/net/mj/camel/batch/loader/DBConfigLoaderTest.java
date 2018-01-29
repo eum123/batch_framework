@@ -57,9 +57,10 @@ public class DBConfigLoaderTest {
         batchJobEntity.setJobSchedule("1 * * * * * *");
         batchJobEntity.setBatchId("test1");
         batchJobEntity.setBatchJobId("job1");
-        batchJobEntity.setReaderClassName("");
-        batchJobEntity.setWorkerClassName("");
-        batchJobEntity.setWriterClassName("");
+        batchJobEntity.setReaderBeanId("");
+        batchJobEntity.setWorkerBeanId("");
+        batchJobEntity.setWriterBeanId("");
+        batchJobEntity.setProcessorId("general");
         batchJobEntity.setBatchEntity(entity);
 
 
@@ -93,9 +94,9 @@ public class DBConfigLoaderTest {
         batchJobEntity.setJobSchedule("1 * * * * * *");
         batchJobEntity.setBatchId("test1");
         batchJobEntity.setBatchJobId("job1");
-        batchJobEntity.setReaderClassName("");
-        batchJobEntity.setWorkerClassName("");
-        batchJobEntity.setWriterClassName("");
+        batchJobEntity.setReaderBeanId("");
+        batchJobEntity.setWorkerBeanId("");
+        batchJobEntity.setWriterBeanId("");
         batchJobEntity.setBatchEntity(entity);
 
 
@@ -128,9 +129,9 @@ public class DBConfigLoaderTest {
         batchJobEntity.setJobSchedule("1 * * * * * *");
         batchJobEntity.setBatchId("test1");
         batchJobEntity.setBatchJobId("job1");
-        batchJobEntity.setReaderClassName("");
-        batchJobEntity.setWorkerClassName("");
-        batchJobEntity.setWriterClassName("");
+        batchJobEntity.setReaderBeanId("");
+        batchJobEntity.setWorkerBeanId("");
+        batchJobEntity.setWriterBeanId("");
         batchJobEntity.setBatchEntity(entity);
         batchJobEntity.setUsage(false);
 
@@ -164,9 +165,9 @@ public class DBConfigLoaderTest {
         batchJobEntity.setJobSchedule("1 * * * * * *");
         batchJobEntity.setBatchId("test1");
         batchJobEntity.setBatchJobId("job1");
-        batchJobEntity.setReaderClassName("");
-        batchJobEntity.setWorkerClassName("");
-        batchJobEntity.setWriterClassName("");
+        batchJobEntity.setReaderBeanId("");
+        batchJobEntity.setWorkerBeanId("");
+        batchJobEntity.setWriterBeanId("");
         batchJobEntity.setBatchEntity(entity);
         batchJobEntity.setUsage(false);
 

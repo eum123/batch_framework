@@ -7,12 +7,13 @@ import lombok.Data;
 public class JobConfig {
     private String jobId;
     private String schedule;
+    private String processorId;
     private boolean isSingleTransaction = false;
-    private String readerClassName;
+    private String readerBeanId;
     private String readerProperties;
-    private String workerClassName;
+    private String workerBeanId;
     private String workerProperties;
-    private String writerClassName;
+    private String writerBeanId;
     private String writerProperties;
 
 }
