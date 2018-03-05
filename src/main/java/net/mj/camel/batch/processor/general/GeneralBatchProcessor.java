@@ -17,20 +17,13 @@ import org.springframework.stereotype.Component;
 
 /**
  * 사용자가 등록한 batch 실행하는 Processor
+ *
  */
-@Component
-@Scope("prototype")
-public class GeneralBatchProcessor extends ServiceSupport implements Processor, ApplicationContextAware {
+public class GeneralBatchProcessor extends ServiceSupport implements Processor {
 
     private final static Logger logger = LoggerFactory.getLogger(GeneralBatchProcessor.class);
 
     private ApplicationContext applicationContext;
-
-    @Autowired
-    private DBConfigLoader loader;
-
-    @Setter
-    private String batchJobId = null;
 
     private JobConfig config = null;
 
@@ -38,11 +31,14 @@ public class GeneralBatchProcessor extends ServiceSupport implements Processor, 
     private Worker worker = null;
     private Writer writer = null;
 
+    public GeneralBatchProcessor(ApplicationContext applicationContext, JobConfig config) {
+        this.applicationContext = applicationContext;
+        this.config = config;
+    }
+
 
     @Override
     public void process(Exchange exchange) throws Exception {
-
-        config = loader.getConfig(batchJobId);
 
         reader = applicationContext.getBean(config.getReaderBeanId(), Reader.class);
         worker = applicationContext.getBean(config.getWorkerBeanId(), Worker.class);
@@ -67,13 +63,17 @@ public class GeneralBatchProcessor extends ServiceSupport implements Processor, 
 
     @Override
     protected void doStop() throws Exception {
-        reader.stop();
-        worker.stop();
-        writer.stop();
+        if(reader != null) {
+            reader.stop();
+        }
+
+        if(worker != null) {
+            worker.stop();
+        }
+
+        if(writer != null) {
+            writer.stop();
+        }
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Component
+@Component("endPointWriter")
 public class EndPointWriter extends AbstractHistoryWriter implements Processor {
 
 

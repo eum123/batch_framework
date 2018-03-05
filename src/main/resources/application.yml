@@ -7,7 +7,7 @@ spring:
 batch:
   home: /work/manjin/project/batch/src/main/resources/
   id: test
-
+  router: net.mj.camel.batch.router.db.DBBatchRouter
 ---
 #local 환경
 spring:

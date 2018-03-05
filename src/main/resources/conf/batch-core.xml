@@ -13,6 +13,7 @@
 	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 	<task:scheduled-tasks scheduler="batchScheduler">
 		<task:scheduled ref="dbConfigLoader" method="update" fixed-delay="5000" /> <!-- annotation으로 설정되어 있음 -->
+		<task:scheduled ref="batchRouteManager" method="update" fixed-delay="5000" /> <!-- annotation으로 설정되어 있음 -->
 	</task:scheduled-tasks>
 
 	<task:scheduler id="batchScheduler"/>

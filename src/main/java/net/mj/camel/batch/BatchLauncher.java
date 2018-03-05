@@ -6,6 +6,7 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -32,16 +33,13 @@ public class BatchLauncher implements CommandLineRunner {
 
     public void run(String... args) throws Exception {
         log.debug("hello");
-        camelContext = new DefaultCamelContext();
-        camelContext.start();
+
     }
 
 
     @PreDestroy
     public void onExit() throws Exception {
-        if (camelContext != null) {
-            camelContext.stop();
-        }
+
         log.info("###STOP FROM THE LIFECYCLE###");
     }
 

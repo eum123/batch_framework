@@ -1,4 +1,7 @@
 package net.mj.camel.batch.router;
 
-public class BatchRouter {
+public interface BatchRouter {
+    public void start() throws Exception;
+
+    public void stop() throws Exception;
 }

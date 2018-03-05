@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Component
+@Component("startPointWriter")
 public class StartPointWriter extends AbstractHistoryWriter implements Processor {
 
     public StartPointWriter() {
