@@ -64,6 +64,7 @@ public class DBConfigLoader {
                 config.setReaderBeanId(entity.getReaderBeanId());
                 config.setSingleTransaction(entity.isSingleTransaction());
                 config.setSchedule(entity.getJobSchedule());
+                config.setUpdateDateTime(entity.getUpdateDateTime().getTime());
 
                 configs.put(entity.getBatchJobId(), config);
             });
@@ -81,7 +82,7 @@ public class DBConfigLoader {
             if(isUpdate) {
                 condition.await();
             }
-            return configs;
+            return new HashMap(configs);
         } finally {
             lock.unlock();
         }

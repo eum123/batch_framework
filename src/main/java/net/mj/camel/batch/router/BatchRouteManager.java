@@ -4,8 +4,10 @@ import net.mj.camel.batch.common.util.router.RouteHelper;
 import net.mj.camel.batch.loader.DBConfigLoader;
 import net.mj.camel.batch.loader.JobConfig;
 import org.apache.camel.CamelContext;
+import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.model.RouteDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -20,6 +22,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
+import java.util.HashMap;
 import java.util.Map;
 
 @DependsOn("dbConfigLoader")
@@ -30,6 +33,8 @@ public class BatchRouteManager implements ApplicationContextAware, InitializingB
 
     private ApplicationContext applicationContext;
     private CamelContext camelContext;
+
+    private Map<String, Long> registedRoutes = new HashMap<>();
 
     @Autowired
     private DBConfigLoader loader;
@@ -49,17 +54,39 @@ public class BatchRouteManager implements ApplicationContextAware, InitializingB
     }
 
 
-    public void update() throws Exception {
+    public synchronized void update() throws Exception {
 
-        for(Map.Entry<String, JobConfig> entry : loader.getConfigs().entrySet()) {
-            RouteBuilder router = RouteHelper.createRouter(applicationContext, routerClassName, entry.getValue());
-
-            camelContext.addRoutes(router);
-
-            log.info("ADD router : {}", entry.getKey());
+        if(loader.getConfigs() == null) {
+            log.info("batch config is empty");
+            return;
         }
 
+        for(Map.Entry<String, JobConfig> entry : loader.getConfigs().entrySet()) {
 
+            Route route = camelContext.getRoute(entry.getValue().getJobId());
+
+            if(route == null) {
+                //regist route
+                registRoute(entry.getValue());
+
+            } else if(registedRoutes.containsKey(route.getId()) && registedRoutes.get(route.getId()) < entry.getValue().getUpdateDateTime()) {
+                camelContext.removeRoute(route.getId());
+
+                registRoute(entry.getValue());
+            }
+
+
+        }
+
+    }
+    private void registRoute(JobConfig config) throws Exception {
+        RouteBuilder router = RouteHelper.createRouter(applicationContext, routerClassName, config);
+
+        camelContext.addRoutes(router);
+
+        registedRoutes.put(config.getJobId(), config.getUpdateDateTime());
+
+        log.info("ADD router : {}", config.getJobId());
     }
 
     @Override

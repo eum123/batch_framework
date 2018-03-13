@@ -37,14 +37,6 @@ public class EndPointWriterTest {
 
             ctx.start();
 
-            endPointWriter.start();
-
-            Assert.assertTrue(endPointWriter.isStarted());
-
-            endPointWriter.stop();
-
-            Assert.assertTrue(endPointWriter.isStopped());
-
         } finally {
             ctx.stop();
         }
@@ -60,11 +52,10 @@ public class EndPointWriterTest {
 
             ctx.start();
 
-            endPointWriter.start();
 
             endPointWriter.process(exchange);
 
-            endPointWriter.stop();
+            Thread.sleep(1000);
 
             Assert.assertEquals(1, repository.count());
 
@@ -84,13 +75,11 @@ public class EndPointWriterTest {
 
             ctx.start();
 
-            endPointWriter.start();
 
             endPointWriter.process(exchange);
 
             Thread.sleep(5000);
 
-            endPointWriter.stop();
 
             Assert.assertEquals(1, repository.count());
 

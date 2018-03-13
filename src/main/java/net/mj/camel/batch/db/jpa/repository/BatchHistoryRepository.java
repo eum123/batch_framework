@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BatchHistoryRepository extends JpaRepository<BatchHistoryEntity, Integer> {
-
+public interface BatchHistoryRepository extends JpaRepository<BatchHistoryEntity, String> {
+    public BatchHistoryEntity findOneBySeq(String seq);
 }

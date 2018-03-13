@@ -5,6 +5,7 @@ import net.mj.camel.batch.history.StartPointWriter;
 import net.mj.camel.batch.loader.JobConfig;
 import net.mj.camel.batch.processor.general.GeneralBatchProcessor;
 import net.mj.camel.batch.router.BatchRouter;
+import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class DBBatchRouter extends RouteBuilder implements BatchRouter {
         StartPointWriter startPointWriter = (StartPointWriter)applicationContext.getBean("startPointWriter");
         EndPointWriter endPointWriter = (EndPointWriter)applicationContext.getBean("endPointWriter");
 
-        from(makeQuartzString())
+        from(makeQuartzString()).routeId(jobConfig.getJobId()).setExchangePattern(ExchangePattern.InOnly)
                 .process(startPointWriter)
                 .process(new GeneralBatchProcessor(applicationContext, jobConfig))
                 .process(endPointWriter);

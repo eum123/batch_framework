@@ -31,7 +31,6 @@ public class BatchHistoryRepositoryTest {
 
             entity.setBatchId("batchId");
             entity.setBatchJobId("batchJobId");
-            entity.setRegistDatetime(new Date());
 
             repository.save(entity);
 

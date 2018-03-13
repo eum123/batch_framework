@@ -3,6 +3,10 @@ spring:
     active: local
   application:
     name: batch
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 batch:
   home: /work/manjin/project/batch/src/main/resources/

@@ -1,6 +1,8 @@
 package net.mj.camel.batch.db.jpa.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,11 +26,15 @@ public class BatchEntity {
     @Column(name="IS_USAGE")
     private boolean isUsage;
 
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="REGIST_DATETIME")
-    private Date registDatetime = new Date();
+    private Date registDatetime;
 
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="UPDATE_DATETIME")
-    private Date updateDateTime = new Date();
+    private Date updateDateTime;
 
     @OneToMany(mappedBy = "batchEntity")
     private List<BatchJobEntity> batchJobEntityList = new ArrayList();

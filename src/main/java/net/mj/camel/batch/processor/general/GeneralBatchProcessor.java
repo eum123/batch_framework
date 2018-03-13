@@ -1,6 +1,8 @@
 package net.mj.camel.batch.processor.general;
 
 import lombok.Setter;
+import net.mj.camel.batch.common.constants.BatchConstants;
+import net.mj.camel.batch.common.constants.BatchResultConstants;
 import net.mj.camel.batch.loader.DBConfigLoader;
 import net.mj.camel.batch.loader.JobConfig;
 import org.apache.camel.Exchange;
@@ -40,6 +42,23 @@ public class GeneralBatchProcessor extends ServiceSupport implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
+        try {
+            config.isSingleTransaction();
+
+            Object readObject = reader.read();
+            Object processObject = worker.work(readObject);
+            writer.write(processObject);
+
+            exchange.getIn().setHeader(BatchConstants.BATCH_RESULT.getId(), BatchResultConstants.SUCCESS.getResultCode());
+        } catch (Exception e) {
+            exchange.getIn().setHeader(BatchConstants.BATCH_RESULT.getId(), BatchResultConstants.FAIL.getResultCode());
+            //TODO trace를 String으로 변환 작업
+            exchange.getIn().setHeader(BatchConstants.BATCH_ERROR_MESSAGE.getId(), e.toString());
+        }
+    }
+
+    @Override
+    protected void doStart() throws Exception {
         reader = applicationContext.getBean(config.getReaderBeanId(), Reader.class);
         worker = applicationContext.getBean(config.getWorkerBeanId(), Worker.class);
         writer = applicationContext.getBean(config.getWriterBeanId(), Writer.class);
@@ -47,18 +66,6 @@ public class GeneralBatchProcessor extends ServiceSupport implements Processor {
         writer.start();
         worker.start();
         reader.start();
-
-
-        config.isSingleTransaction();
-
-        Object readObject = reader.read();
-        Object processObject = worker.work(readObject);
-        writer.write(processObject);
-    }
-
-    @Override
-    protected void doStart() throws Exception {
-
     }
 
     @Override

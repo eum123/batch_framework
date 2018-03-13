@@ -15,5 +15,6 @@ public class JobConfig {
     private String workerProperties;
     private String writerBeanId;
     private String writerProperties;
+    private Long updateDateTime;
 
 }

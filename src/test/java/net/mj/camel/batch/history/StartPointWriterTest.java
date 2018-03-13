@@ -37,13 +37,6 @@ public class StartPointWriterTest {
 
             ctx.start();
 
-            startPointWriter.start();
-
-            Assert.assertTrue(startPointWriter.isStarted());
-
-            startPointWriter.stop();
-
-            Assert.assertTrue(startPointWriter.isStopped());
 
         } finally {
             ctx.stop();
@@ -60,11 +53,10 @@ public class StartPointWriterTest {
 
             ctx.start();
 
-            startPointWriter.start();
 
             startPointWriter.process(exchange);
 
-            startPointWriter.stop();
+            Thread.sleep(1000);
 
             Assert.assertEquals(1, repository.count());
 
@@ -84,13 +76,11 @@ public class StartPointWriterTest {
 
             ctx.start();
 
-            startPointWriter.start();
 
             startPointWriter.process(exchange);
 
             Thread.sleep(5000);
 
-            startPointWriter.stop();
 
             Assert.assertEquals(1, repository.count());
 

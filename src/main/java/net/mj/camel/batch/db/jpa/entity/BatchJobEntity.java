@@ -1,6 +1,9 @@
 package net.mj.camel.batch.db.jpa.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.Id;
 
 import javax.persistence.*;
@@ -50,11 +53,15 @@ public class BatchJobEntity implements Serializable {
     @Column(name="IS_USAGE")
     private boolean isUsage = true;
 
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="REGIST_DATETIME")
-    private Date registDatetime = new Date();
+    private Date registDatetime;
 
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="UPDATE_DATETIME")
-    private Date updateDateTime = new Date();
+    private Date updateDateTime;
 
     @ManyToOne
     @JoinColumn(name = "BATCH_ID", insertable = false, updatable = false)
