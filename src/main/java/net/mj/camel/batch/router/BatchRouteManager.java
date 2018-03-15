@@ -19,12 +19,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.jmx.export.annotation.ManagedOperation;
+import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
 import java.util.HashMap;
 import java.util.Map;
 
+@ManagedResource(objectName = "batch:name=BatchRouteManager")
 @DependsOn("dbConfigLoader")
 @Component("batchRouteManager")
 @Lazy
@@ -54,6 +57,7 @@ public class BatchRouteManager implements ApplicationContextAware, InitializingB
     }
 
 
+    @ManagedOperation
     public synchronized void update() throws Exception {
 
         if(loader.getConfigs() == null) {

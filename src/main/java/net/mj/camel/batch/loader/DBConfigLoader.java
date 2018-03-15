@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jmx.export.annotation.ManagedOperation;
+import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -22,6 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * DB에서 Batch 설정 정보를 읽는다.
  *
  */
+@ManagedResource(objectName = "batch:name=DBConfigLoader")
 @Component("dbConfigLoader")
 public class DBConfigLoader {
     private final static Logger logger = LoggerFactory.getLogger(DBConfigLoader.class);
@@ -67,6 +70,8 @@ public class DBConfigLoader {
                 config.setUpdateDateTime(entity.getUpdateDateTime().getTime());
 
                 configs.put(entity.getBatchJobId(), config);
+
+                logger.info("add job config : " + config);
             });
 
         } finally {
@@ -105,6 +110,7 @@ public class DBConfigLoader {
      * schedule로 등록되어 있음
      * @throws Exception
      */
+    @ManagedOperation
     public void update() throws Exception {
         excuteQuery();
     }

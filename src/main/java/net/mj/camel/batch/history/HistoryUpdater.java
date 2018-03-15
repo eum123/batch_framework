@@ -9,12 +9,15 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jmx.export.annotation.ManagedOperation;
+import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+@ManagedResource(objectName = "batch:name=HistoryUpdater")
 @Component("HistoryUpdater")
 public class HistoryUpdater implements InitializingBean, DisposableBean {
     private final static Logger logger = LoggerFactory.getLogger(HistoryUpdater.class);
@@ -35,6 +38,7 @@ public class HistoryUpdater implements InitializingBean, DisposableBean {
 
     }
 
+    @ManagedOperation
     @Override
     public void destroy() throws Exception {
         if(updateWorker != null) {
@@ -54,6 +58,7 @@ public class HistoryUpdater implements InitializingBean, DisposableBean {
         }
     }
 
+    @ManagedOperation
     @Override
     public void afterPropertiesSet() throws Exception {
         updateWorker = new UpdateWorker();
@@ -83,6 +88,7 @@ public class HistoryUpdater implements InitializingBean, DisposableBean {
     }
 
 
+    @ManagedOperation
     public void commitAll() throws InterruptedException {
         int count = 0;
         while(queue.size() > 0) {

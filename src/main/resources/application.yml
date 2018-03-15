@@ -8,6 +8,7 @@ spring:
       ddl-auto: update
     show-sql: true
 
+
 server:
   port: 8181
   jetty:
@@ -33,6 +34,10 @@ logging:
 
 ---
 #local 환경
+
+project:
+  base-dir: file:///work/manjin/project/batch
+
 spring:
   profiles: local
 
@@ -47,6 +52,15 @@ spring:
   jpa:
     properties:
       hibernate.jdbc.batch_size: 100
+
+  # static reload
+  thymeleaf:
+    prefix: ${project.base-dir}/src/main/resources/static
+    cache: false
+  resources:
+    static-locations: ${project.base-dir}/src/main/resources/static/
+    cache-period: 0
+  # static reload
 
 batch:
   home: /work/manjin/project/batch/src/main/resources/
